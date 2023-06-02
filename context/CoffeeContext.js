@@ -11,6 +11,7 @@ const CoffeeProvider = ({ children }) => {
   const [product, setProduct] = useState({});
   const [cart, setCart] = useState([]);
   const [modal, setModal] = useState(false);
+  const [total, setTotal] = useState(0);
   const router = useRouter();
 
   const getCategories = async () => {
@@ -25,6 +26,13 @@ const CoffeeProvider = ({ children }) => {
   useEffect(() => {
     setCurrentCategory(categories[0]);
   }, [categories]);
+
+  useEffect(() => {
+    const newTotal = cart.reduce(
+      (total, product) => (product.price * product.quantity + total, 0)
+    );
+    setTotal(newTotal);
+  }, [cart]);
 
   const handleClickCategory = (id) => {
     const category = categories.filter((cat) => cat.id === id);
@@ -67,6 +75,10 @@ const CoffeeProvider = ({ children }) => {
     setCart(updatedCart);
   };
 
+  const sendOrder = async (e) => {
+    e.preventDefault();
+  };
+
   return (
     <CoffeeContext.Provider
       value={{
@@ -75,12 +87,14 @@ const CoffeeProvider = ({ children }) => {
         product,
         cart,
         modal,
+        total,
         handleClickCategory,
         handleSetProduct,
         handleChangeModal,
         handleAddToCart,
         handleEditResume,
         handleDeleteFromResume,
+        sendOrder,
       }}
     >
       {children}
