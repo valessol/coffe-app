@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const CoffeeContext = createContext();
 
@@ -10,6 +11,7 @@ const CoffeeProvider = ({ children }) => {
   const [product, setProduct] = useState({});
   const [cart, setCart] = useState([]);
   const [modal, setModal] = useState(false);
+  const router = useRouter();
 
   const getCategories = async () => {
     const { data } = await axios("/api/categories");
@@ -27,6 +29,7 @@ const CoffeeProvider = ({ children }) => {
   const handleClickCategory = (id) => {
     const category = categories.filter((cat) => cat.id === id);
     setCurrentCategory(category[0]);
+    router.push("/");
   };
 
   const handleSetProduct = (product) => {
