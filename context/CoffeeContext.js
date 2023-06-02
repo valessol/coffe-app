@@ -37,7 +37,7 @@ const CoffeeProvider = ({ children }) => {
     setModal(!modal);
   };
 
-  const handleAddToCart = ({ categoryId, image, ...product }) => {
+  const handleAddToCart = ({ categoryId, ...product }) => {
     const existProduct = cart.some(
       (productState) => productState.id === product.id
     );
@@ -53,6 +53,17 @@ const CoffeeProvider = ({ children }) => {
     }
   };
 
+  const handleEditResume = (id) => {
+    const productOnCart = cart.find((product) => product.id === id);
+    setProduct(productOnCart);
+    setModal(!modal);
+  };
+
+  const handleDeleteFromResume = (id) => {
+    const updatedCart = cart.find((product) => product.id !== id);
+    setCart(updatedCart);
+  };
+
   return (
     <CoffeeContext.Provider
       value={{
@@ -65,6 +76,8 @@ const CoffeeProvider = ({ children }) => {
         handleSetProduct,
         handleChangeModal,
         handleAddToCart,
+        handleEditResume,
+        handleDeleteFromResume,
       }}
     >
       {children}
