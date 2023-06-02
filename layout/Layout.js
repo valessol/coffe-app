@@ -5,6 +5,7 @@ import useCoffee from "../hooks/useCoffee";
 import Sidebar from "../components/Sidebar";
 import ProductModal from "../components/Modal";
 import "react-toastify/dist/ReactToastify.css";
+import Steps from "../components/Steps";
 
 const customStyles = {
   content: {
@@ -33,7 +34,10 @@ const Layout = ({ children, page = "" }) => {
         </aside>
 
         <main className="md:w-8/12 xl:w-3/4 2xl:w-4/5 h-screen overflow-y-scroll">
-          <div className="p-10 mt-10">{children}</div>
+          <div className="p-10 mt-10">
+            <Steps />
+            {children}
+          </div>
         </main>
       </div>
 
