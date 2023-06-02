@@ -18,12 +18,17 @@ export default function Total() {
     disableForm();
   }, [cart, disableForm]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendOrder(name);
+  };
+
   return (
     <Layout page="Finalizar pedido">
       <h1 className="text-4xl font-black">Confirmar pedido</h1>
       <p className="text-2xl my-10">Confirma tu pedido a continuación</p>
 
-      <form onSubmit={sendOrder}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label
             className="block uppercase text-slate-800 font-bold text-xl"

@@ -28,10 +28,12 @@ const CoffeeProvider = ({ children }) => {
   }, [categories]);
 
   useEffect(() => {
-    const newTotal = cart.reduce(
-      (total, product) => (product.price * product.quantity + total, 0)
-    );
-    setTotal(newTotal);
+    if (cart.length) {
+      const newTotal = cart.reduce(
+        (total, product) => (product.price * product.quantity + total, 0)
+      );
+      setTotal(newTotal);
+    } else setTotal(0);
   }, [cart]);
 
   const handleClickCategory = (id) => {
@@ -75,8 +77,25 @@ const CoffeeProvider = ({ children }) => {
     setCart(updatedCart);
   };
 
-  const sendOrder = async (e) => {
-    e.preventDefault();
+  const sendOrder = async (name) => {
+    try {
+      await axios.post("api/orders", {
+        order: cart,
+        name,
+        total,
+        date: Date.now().toString(),
+      });
+
+      // Resetear la app
+      setCurrentCategory(categories[0]);
+      setCart([]);
+      setTotal(0);
+
+      toast.success("Pedido Realizado Correctamente");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
